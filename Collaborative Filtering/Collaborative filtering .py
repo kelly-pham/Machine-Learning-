@@ -44,6 +44,29 @@ def Pearson(preferences,genre1 ,genre2):
         return 0
     return number/den
 
+def cosin_similarity(preferences,genre1,genre2):
+    share_list = {}
+    for item in preferences[genre1]:
+        if item in preferences[genre2]:
+            share_list[item] = 1
+    if len(share_list) == 0:
+        return 0
+
+    for item in share_list:
+        x=preferences[genre1][item]
+        y=preferences[genre2][item]
+
+        sumxx = 0
+        sumxy = 0
+        sumyy = 0
+
+        sumxx += x*x
+        sumyy += y*y
+        sumxy += x*y
+
+        output = sumxy / sqrt(sumxx * sumyy)
+    return output
+
 def main():
     print("\tUsing Euclidean distance method\t")
     object1=Euclid_distance(genres,'Comedy','Romance')
@@ -52,6 +75,7 @@ def main():
     object2=Euclid_distance(genres,'Romance','Horror')
     print('Similarity Score between {} and {}: {:f}'.format('Romance', 'Horror', object2))
 
+    print("--------------------------------")
     print("\tUsing Pearson method\t")
     object3=Pearson(genres,'Comedy','Horror')
     print('Similarity Score between {} and {}: {:f}'.format('Comedy', 'Horror', object3))
@@ -59,6 +83,10 @@ def main():
     object4 = Pearson(genres, 'Romance', 'Horror')
     print('Similarity Score between {} and {}: {:f}'.format('Romance', 'Horror', object4))
 
+    print("--------------------------------")
+    print("\t Using Cosine Similarity\t")
+    object5=cosin_similarity(genres,'Romance','Horror')
+    print('Similarity Score between {} and {}: {:f}'.format('Romance', 'Horror', object5))
 
 if __name__ == '__main__':
     main()
